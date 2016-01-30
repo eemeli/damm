@@ -78,19 +78,24 @@ describe('damm', function () {
     });
   });
 
-  it('throw on non-string', function (done) {
-    try {
-      damm.generate(123);
-    } catch (e) {
-      done();
-    }
+  it('accept empty-string input', function () {
+    expect(damm.generate('')).to.eql('');
+    expect(damm.append('')).to.eql('');
   });
 
-  it('throw on non-digits', function (done) {
-    try {
-      damm.generate('1234X');
-    } catch (e) {
-      done();
-    }
+  it('accept integer input', function () {
+    expect(damm.generate(572)).to.equal('4');
+    expect(damm.append(572)).to.equal('5724');
+    expect(damm.verify(5724)).to.be.true;
+  });
+
+  it('accept array input', function () {
+    expect(damm.generate(['572', '111', '0101', ''])).to.eql(['4', '9', '0', '']);
+    expect(damm.verify(damm.append(['572', '111', '0101', '']))).to.eql([true, true, true, false]);
+  });
+
+  it('throw on invalid input', function () {
+    expect(function(){ damm.generate(true); }).to.throw(Error);
+    expect(function(){ damm.generate('1234X'); }).to.throw(Error);
   });
 });

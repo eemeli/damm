@@ -12,7 +12,11 @@ var table = [
 ];
 
 function generate(input) {
-  if (typeof input !== 'string') {
+  if (input && input.map) return input.map(generate);
+  if (input === '') return '';
+  if (typeof input === 'number' && isFinite(input) && Math.floor(input) === input) {
+    input = input.toString();
+  } else if (typeof input !== 'string') {
     throw new Error('Input must be a string.');
   }
   if (!input.match(/^\d+$/)) {
@@ -28,10 +32,13 @@ function generate(input) {
 }
 
 function append(input) {
+  if (input && input.map) return input.map(append);
+  if (input === '') return '';
   return input + generate(input);
 }
 
 function verify(input) {
+  if (input && input.map) return input.map(verify);
   return generate(input) === '0';
 }
 
