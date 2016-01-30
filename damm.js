@@ -1,3 +1,12 @@
+/**
+ * Damm check digit algorithm
+ *
+ * Detects all single-digit errors and adjacent transposition errors
+ *
+ * https://github.com/eemeli/damm
+ * https://en.wikipedia.org/wiki/Damm_algorithm
+ */
+
 var table = [
   [0, 3, 1, 7, 5, 9, 8, 6, 4, 2],
   [7, 0, 9, 2, 1, 5, 4, 8, 6, 3],
@@ -11,6 +20,13 @@ var table = [
   [2, 5, 8, 1, 4, 3, 6, 7, 9, 0]
 ];
 
+/**
+ * Generates a Damm algorithm check digit for the input
+ *
+ * @param {number} input The source value
+ * @return {string} The Damm algorithm check digit
+ * @customfunction
+ */
 function damm_generate(input) {
   if (input && input.map) return input.map(damm_generate);
   if (input === '') return '';
@@ -31,12 +47,26 @@ function damm_generate(input) {
   return row.toString();
 }
 
+/**
+ * Appends a Damm algorithm check digit to the input
+ *
+ * @param {number} input The source value
+ * @return {string} Input string concatenated with the check digit
+ * @customfunction
+ */
 function damm_append(input) {
   if (input && input.map) return input.map(damm_append);
   if (input === '') return '';
   return input + damm_generate(input);
 }
 
+/**
+ * Verifies that the input's Damm algorithm check digit is valid
+ *
+ * @param {number} input A value with a check digit
+ * @return {boolean} True if the input is valid
+ * @customfunction
+ */
 function damm_verify(input) {
   if (input && input.map) return input.map(damm_verify);
   return damm_generate(input) === '0';
