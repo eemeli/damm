@@ -11,8 +11,8 @@ var table = [
   [2, 5, 8, 1, 4, 3, 6, 7, 9, 0]
 ];
 
-function generate(input) {
-  if (input && input.map) return input.map(generate);
+function damm_generate(input) {
+  if (input && input.map) return input.map(damm_generate);
   if (input === '') return '';
   if (typeof input === 'number' && isFinite(input) && Math.floor(input) === input) {
     input = input.toString();
@@ -31,17 +31,19 @@ function generate(input) {
   return row.toString();
 }
 
-function append(input) {
-  if (input && input.map) return input.map(append);
+function damm_append(input) {
+  if (input && input.map) return input.map(damm_append);
   if (input === '') return '';
-  return input + generate(input);
+  return input + damm_generate(input);
 }
 
-function verify(input) {
-  if (input && input.map) return input.map(verify);
-  return generate(input) === '0';
+function damm_verify(input) {
+  if (input && input.map) return input.map(damm_verify);
+  return damm_generate(input) === '0';
 }
 
-exports.generate = generate;
-exports.append = append;
-exports.verify = verify;
+if (typeof exports == 'object') {
+  exports.generate = damm_generate;
+  exports.append = damm_append;
+  exports.verify = damm_verify;
+}
